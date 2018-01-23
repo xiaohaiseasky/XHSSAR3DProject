@@ -189,9 +189,11 @@ class XHSSObjectOprationUI: UIView {
     typealias XHSSObjectOprationUIObjectCreateCallBack = (_ newNode: SCNNode) -> ();
     typealias XHSSObjectOprationUIObjectConfigFinishCallBack = () -> ();
     typealias XHSSObjectOprationUIObjectConfigMetarialCallBack = () -> ();
+    typealias XHSSObjectOprationUIObjectCreateGeometryCallBack = (XHSSObjectCreateType) -> ();
     var objectCreateCallBack: XHSSObjectOprationUIObjectCreateCallBack?;
     var objectConfigFinishCallBack: XHSSObjectOprationUIObjectConfigFinishCallBack?;
     var objectConfigMetarialCallBack: XHSSObjectOprationUIObjectConfigMetarialCallBack?;
+    var createGeometryCallBack: XHSSObjectOprationUIObjectCreateGeometryCallBack?;
     
     
     
@@ -399,36 +401,66 @@ extension XHSSObjectOprationUI {
 /**
  TableView
  */
+enum XHSSObjectCreateType {
+    case plane
+    case box
+    case pyramid
+    case sphere
+    case cylinder
+    case cone
+    case tube
+    case capsule
+    case torus
+    case floor
+    case text
+    case shape
+}
 extension XHSSObjectOprationUI: UITableViewDelegate, UITableViewDataSource {
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView === self.objectTypeTableView {
             //self.objectConfigTableView?.reloadData();
+            guard let block = self.createGeometryCallBack else {
+                return;
+            }
+            
             switch objectNameArr[indexPath.row] {
             case "平面":
-                self.scnGeometryNode = createPlane();
+                block(.plane);
+//                self.scnGeometryNode = createPlane();
             case "立方体":
-                self.scnGeometryNode = createBox();
+                block(.box);
+//                self.scnGeometryNode = createBox();
             case "棱锥":
-                self.scnGeometryNode = createPyramid();
+                block(.pyramid);
+//                self.scnGeometryNode = createPyramid();
             case "球体":
-                self.scnGeometryNode = createSphere();
+                block(.sphere);
+//                self.scnGeometryNode = createSphere();
             case "圆柱":
-                self.scnGeometryNode = createCylinder();
+                block(.cylinder);
+//                self.scnGeometryNode = createCylinder();
             case "圆台":
-                self.scnGeometryNode = createCone();
+                block(.cone);
+//                self.scnGeometryNode = createCone();
             case "圆管":
-                self.scnGeometryNode = createTube();
+                block(.tube);
+//                self.scnGeometryNode = createTube();
             case "胶囊体":
-                self.scnGeometryNode = createCapsule();
+                block(.capsule);
+//                self.scnGeometryNode = createCapsule();
             case "环面体":
-                self.scnGeometryNode = createTorus();
+                block(.torus);
+//                self.scnGeometryNode = createTorus();
             case "地面":
-                self.scnGeometryNode = createFloor();
+                block(.floor);
+//                self.scnGeometryNode = createFloor();
             case "文字":
-                self.scnGeometryNode = createText();
+                block(.text);
+//                self.scnGeometryNode = createText();
             case "图形":
-                self.scnGeometryNode = createShape();
+                block(.shape);
+//                self.scnGeometryNode = createShape();
             default:
                 print("error bject type selecte");
             }
@@ -477,120 +509,120 @@ extension XHSSObjectOprationUI: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-/**
- Create Object
- */
-extension XHSSObjectOprationUI {
-    func createPlane() -> SCNNode {
-        let plane: SCNPlane = SCNPlane(width: 3, height: 3);
-        let planeNode = SCNNode(geometry: plane);
-        planeNode.position = SCNVector3(0, 0, 0);
-        planeNode.name = "newPlane";
-        self.scene?.rootNode.addChildNode(planeNode);
-        return planeNode;
-    }
-    
-    func createBox() -> SCNNode {
-        let box: SCNBox = SCNBox(width: 3, height: 3, length: 3, chamferRadius: 0);
-        let boxNode = SCNNode(geometry: box);
-        boxNode.position = SCNVector3(0, 0, 0);
-        boxNode.name = "newBox";
-        self.scene?.rootNode.addChildNode(boxNode);
-        return boxNode;
-    }
-    
-    func createPyramid() -> SCNNode {
-        let pyramid: SCNPyramid = SCNPyramid(width: 3, height: 3, length: 3);
-        let pyramidNode = SCNNode(geometry: pyramid);
-        pyramidNode.position = SCNVector3(0, 0, 0);
-        pyramidNode.name = "newPyramid";
-        self.scene?.rootNode.addChildNode(pyramidNode);
-        return pyramidNode;
-    }
-    
-    func createSphere() -> SCNNode {
-        let sphere: SCNSphere = SCNSphere(radius: 3);
-        let sphereNode = SCNNode(geometry: sphere);
-        sphereNode.position = SCNVector3(0, 0, 0);
-        sphereNode.name = "newSphere";
-        self.scene?.rootNode.addChildNode(sphereNode);
-        return sphereNode;
-    }
-    
-    func createCylinder() -> SCNNode {
-        let cylinder: SCNCylinder = SCNCylinder(radius: 3, height: 3);
-        let cylinderNode = SCNNode(geometry: cylinder);
-        cylinderNode.position = SCNVector3(0, 0, 0);
-        cylinderNode.name = "newCylinder";
-        self.scene?.rootNode.addChildNode(cylinderNode);
-        return cylinderNode;
-    }
-    
-    func createCone() -> SCNNode {
-        let cone: SCNCone = SCNCone(topRadius: 1, bottomRadius: 3, height: 3);
-        let coneNode = SCNNode(geometry: cone);
-        coneNode.position = SCNVector3(0, 0, 0);
-        coneNode.name = "newCone";
-        self.scene?.rootNode.addChildNode(coneNode);
-        return coneNode;
-    }
-    
-    func createTube() -> SCNNode {
-        let tube: SCNTube = SCNTube(innerRadius: 1, outerRadius: 3, height: 3);
-        let tubeNode = SCNNode(geometry: tube);
-        tubeNode.position = SCNVector3(0, 0, 0);
-        tubeNode.name = "newTube";
-        self.scene?.rootNode.addChildNode(tubeNode);
-        return tubeNode;
-    }
-    
-    func createCapsule() -> SCNNode {
-        let capsule: SCNCapsule = SCNCapsule(capRadius: 3, height: 3);
-        let capsuleNode = SCNNode(geometry: capsule);
-        capsuleNode.position = SCNVector3(0, 0, 0);
-        capsuleNode.name = "newCapsule";
-        self.scene?.rootNode.addChildNode(capsuleNode);
-        return capsuleNode;
-    }
-    
-    func createTorus() -> SCNNode {
-        let torus: SCNTorus = SCNTorus(ringRadius: 3, pipeRadius: 1);
-        let torusNode = SCNNode(geometry: torus);
-        torusNode.position = SCNVector3(0, 0, 0);
-        torusNode.name = "newTorus";
-        self.scene?.rootNode.addChildNode(torusNode);
-        return torusNode;
-    }
-    
-    func createFloor() -> SCNNode {
-        let floor: SCNFloor = SCNFloor();
-        floor.width = 3.0;
-        floor.length = 3.0;
-        let floorNode = SCNNode(geometry: floor);
-        floorNode.position = SCNVector3(0, 0, 0);
-        floorNode.name = "newFloor";
-        self.scene?.rootNode.addChildNode(floorNode);
-        return floorNode;
-    }
-    
-    func createText() -> SCNNode {
-        let text: SCNText = SCNText(string: "TEXT", extrusionDepth: 3);
-        let textNode = SCNNode(geometry: text);
-        textNode.position = SCNVector3(0, 0, 0);
-        textNode.name = "newText";
-        self.scene?.rootNode.addChildNode(textNode);
-        return textNode;
-    }
-    
-    func createShape() -> SCNNode {
-        let shape: SCNShape = SCNShape(path: UIBezierPath(rect: CGRect(x: 0, y: 0, width: 3, height: 3)), extrusionDepth: 3);
-        let shapeNode = SCNNode(geometry: shape);
-        shapeNode.position = SCNVector3(0, 0, 0);
-        shapeNode.name = "newShape";
-        self.scene?.rootNode.addChildNode(shapeNode);
-        return shapeNode;
-    }
-}
+///**
+// Create Object
+// */
+//extension XHSSObjectOprationUI {
+//    func createPlane() -> SCNNode {
+//        let plane: SCNPlane = SCNPlane(width: 3, height: 3);
+//        let planeNode = SCNNode(geometry: plane);
+//        planeNode.position = SCNVector3(0, 0, 0);
+//        planeNode.name = "newPlane";
+//        self.scene?.rootNode.addChildNode(planeNode);
+//        return planeNode;
+//    }
+//    
+//    func createBox() -> SCNNode {
+//        let box: SCNBox = SCNBox(width: 3, height: 3, length: 3, chamferRadius: 0);
+//        let boxNode = SCNNode(geometry: box);
+//        boxNode.position = SCNVector3(0, 0, 0);
+//        boxNode.name = "newBox";
+//        self.scene?.rootNode.addChildNode(boxNode);
+//        return boxNode;
+//    }
+//    
+//    func createPyramid() -> SCNNode {
+//        let pyramid: SCNPyramid = SCNPyramid(width: 3, height: 3, length: 3);
+//        let pyramidNode = SCNNode(geometry: pyramid);
+//        pyramidNode.position = SCNVector3(0, 0, 0);
+//        pyramidNode.name = "newPyramid";
+//        self.scene?.rootNode.addChildNode(pyramidNode);
+//        return pyramidNode;
+//    }
+//    
+//    func createSphere() -> SCNNode {
+//        let sphere: SCNSphere = SCNSphere(radius: 3);
+//        let sphereNode = SCNNode(geometry: sphere);
+//        sphereNode.position = SCNVector3(0, 0, 0);
+//        sphereNode.name = "newSphere";
+//        self.scene?.rootNode.addChildNode(sphereNode);
+//        return sphereNode;
+//    }
+//    
+//    func createCylinder() -> SCNNode {
+//        let cylinder: SCNCylinder = SCNCylinder(radius: 3, height: 3);
+//        let cylinderNode = SCNNode(geometry: cylinder);
+//        cylinderNode.position = SCNVector3(0, 0, 0);
+//        cylinderNode.name = "newCylinder";
+//        self.scene?.rootNode.addChildNode(cylinderNode);
+//        return cylinderNode;
+//    }
+//    
+//    func createCone() -> SCNNode {
+//        let cone: SCNCone = SCNCone(topRadius: 1, bottomRadius: 3, height: 3);
+//        let coneNode = SCNNode(geometry: cone);
+//        coneNode.position = SCNVector3(0, 0, 0);
+//        coneNode.name = "newCone";
+//        self.scene?.rootNode.addChildNode(coneNode);
+//        return coneNode;
+//    }
+//    
+//    func createTube() -> SCNNode {
+//        let tube: SCNTube = SCNTube(innerRadius: 1, outerRadius: 3, height: 3);
+//        let tubeNode = SCNNode(geometry: tube);
+//        tubeNode.position = SCNVector3(0, 0, 0);
+//        tubeNode.name = "newTube";
+//        self.scene?.rootNode.addChildNode(tubeNode);
+//        return tubeNode;
+//    }
+//    
+//    func createCapsule() -> SCNNode {
+//        let capsule: SCNCapsule = SCNCapsule(capRadius: 3, height: 3);
+//        let capsuleNode = SCNNode(geometry: capsule);
+//        capsuleNode.position = SCNVector3(0, 0, 0);
+//        capsuleNode.name = "newCapsule";
+//        self.scene?.rootNode.addChildNode(capsuleNode);
+//        return capsuleNode;
+//    }
+//    
+//    func createTorus() -> SCNNode {
+//        let torus: SCNTorus = SCNTorus(ringRadius: 3, pipeRadius: 1);
+//        let torusNode = SCNNode(geometry: torus);
+//        torusNode.position = SCNVector3(0, 0, 0);
+//        torusNode.name = "newTorus";
+//        self.scene?.rootNode.addChildNode(torusNode);
+//        return torusNode;
+//    }
+//    
+//    func createFloor() -> SCNNode {
+//        let floor: SCNFloor = SCNFloor();
+//        floor.width = 3.0;
+//        floor.length = 3.0;
+//        let floorNode = SCNNode(geometry: floor);
+//        floorNode.position = SCNVector3(0, 0, 0);
+//        floorNode.name = "newFloor";
+//        self.scene?.rootNode.addChildNode(floorNode);
+//        return floorNode;
+//    }
+//    
+//    func createText() -> SCNNode {
+//        let text: SCNText = SCNText(string: "TEXT", extrusionDepth: 3);
+//        let textNode = SCNNode(geometry: text);
+//        textNode.position = SCNVector3(0, 0, 0);
+//        textNode.name = "newText";
+//        self.scene?.rootNode.addChildNode(textNode);
+//        return textNode;
+//    }
+//    
+//    func createShape() -> SCNNode {
+//        let shape: SCNShape = SCNShape(path: UIBezierPath(rect: CGRect(x: 0, y: 0, width: 3, height: 3)), extrusionDepth: 3);
+//        let shapeNode = SCNNode(geometry: shape);
+//        shapeNode.position = SCNVector3(0, 0, 0);
+//        shapeNode.name = "newShape";
+//        self.scene?.rootNode.addChildNode(shapeNode);
+//        return shapeNode;
+//    }
+//}
 
 /**
  DataSource

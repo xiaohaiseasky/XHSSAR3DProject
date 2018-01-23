@@ -17,7 +17,7 @@ class XHSSMaterialOprationUI: UIView {
     
     // MARK: - data varables
     var material: SCNMaterial? = SCNMaterial();
-    
+    var materialComponent: SCNMaterialProperty?;
     
     // MARK: - view varables
     var materialPropertyTableView: UITableView?
@@ -180,41 +180,9 @@ extension XHSSMaterialOprationUI: UITableViewDelegate, UITableViewDataSource {
         if tableView === self.materialPropertyTableView {
             /// *** here only deal with SCNMaterialProperty type , but have other also ***
             self.materialSubPropertyTableView?.reloadData();
+            self.materialComponent = materialPropertyType(atIndex: indexPath.row);
         } else {
-            switch indexPath.row {
-            case 0:
-                print("内容 : indexPath row \(indexPath.row)");
-                let contentEditView = XHSSMaterialContentEditView();
-                contentEditView.show(inView: self, finishCallBack: { (content) in
-                    self.material?.diffuse.contents = content;
-                });
-            case 1:
-                print("强度 : indexPath row \(indexPath.row)");
-            case 2:
-                print("indexPath row \(indexPath.row)");
-            case 3:
-                print("indexPath row \(indexPath.row)");
-            case 4:
-                print("indexPath row \(indexPath.row)");
-            case 5:
-                print("indexPath row \(indexPath.row)");
-            case 6:
-                print("indexPath row \(indexPath.row)");
-            case 7:
-                print("indexPath row \(indexPath.row)");
-            case 8:
-                print("indexPath row \(indexPath.row)");
-            case 9:
-                print("indexPath row \(indexPath.row)");
-            case 10:
-                print("indexPath row \(indexPath.row)");
-            case 11:
-                print("indexPath row \(indexPath.row)");
-            case 12:
-                print("indexPath row \(indexPath.row)");
-            default :
-                print("invalide indexPath row");
-            }
+            materialSubPropertyType(atIndex: indexPath.row);
         }
     }
     
@@ -242,6 +210,107 @@ extension XHSSMaterialOprationUI: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell!;
+    }
+}
+/**
+ material
+ */
+extension XHSSMaterialOprationUI {
+    // MARK: - MATERIAL EDIT
+    /* "shininess", "transparency",
+     "lightingModelName", "litPerPixel", "doubleSided", "fillMode", "cullMode",
+     "transparencyMode", "locksAmbientWithDiffuse", "writeToDepthBuffer", "colorBufferWriteMask", "readsFromDepthBuffer",
+     "fresnelExponent", "blendMode"]
+     */
+    func materialPropertyType(atIndex index: Int) -> SCNMaterialProperty {
+        switch index {
+        case 0:
+            print("漫反射贴图 : indexPath row \(index)");
+            return (self.material?.diffuse)!;
+        case 1:
+            print("环境贴图 : indexPath row \(index)");
+            return (self.material?.ambient)!;
+        case 2:
+            print("高光贴图 : indexPath row \(index)");
+            return (self.material?.specular)!;
+        case 3:
+            print("发光贴图 : indexPath row \(index)");
+            return (self.material?.emission)!;
+        case 4:
+            print("透明贴图 : indexPath row \(index)");
+            return (self.material?.transparent)!;
+        case 5:
+            print("反射贴图 : indexPath row \(index)");
+            return (self.material?.reflective)!;
+        case 6:
+            print("正片叠底贴图 : indexPath row \(index)");
+            return (self.material?.multiply)!;
+        case 7:
+            print("法线贴图 : indexPath row \(index)");
+            return (self.material?.normal)!;
+        case 8:
+            print("displacement : indexPath row \(index)");
+            return (self.material?.displacement)!;
+        case 9:
+            print("闭塞贴图 : indexPath row \(index)");
+            return (self.material?.ambientOcclusion)!;
+        case 10:
+            print("selfIllumination : indexPath row \(index)");
+            return (self.material?.selfIllumination)!;
+        case 11:
+            print("metalness : indexPath row \(index)");
+            return (self.material?.metalness)!;
+        case 12:
+            print("roughness : indexPath row \(index)");
+            return (self.material?.roughness)!;
+        default :
+            print("invalide indexPath row");
+            print("indexPath row \(index)");
+            return (self.material?.diffuse)!;
+        }
+    }
+    
+    // SCNGeometrySource
+    // SCNGeometryElement
+    
+    /*
+     "内容", "强度", "SCNFilterMode", "SCNFilterMode", "SCNFilterMode",
+     "SCNMatrix4", "SCNWrapMode", "SCNWrapMode", "边框颜色", "NSInteger",
+     "SCNColorMask", "CGFloat"
+     */
+    func materialSubPropertyType(atIndex index: Int) {
+        switch index {
+        case 0:
+            print("内容 : indexPath row \(index)");
+            let contentEditView = XHSSMaterialContentEditView();
+            contentEditView.show(inView: self, finishCallBack: { (content) in
+                self.materialComponent?.contents = content;
+            });
+        case 1:
+            print("强度 : indexPath row \(index)");
+        case 2:
+            print("SCNFilterMode : indexPath row \(index)");
+        case 3:
+            print("SCNFilterMode : indexPath row \(index)");
+        case 4:
+            print("SCNFilterMode : indexPath row \(index)");
+        case 5:
+            print("SCNMatrix4 : indexPath row \(index)");
+        case 6:
+            print("SCNWrapMode : indexPath row \(index)");
+        case 7:
+            print("SCNWrapMode : indexPath row \(index)");
+        case 8:
+            print("边框颜色 : indexPath row \(index)");
+        case 9:
+            print("NSInteger : indexPath row \(index)");
+        case 10:
+            print("SCNColorMask : indexPath row \(index)");
+        case 11:
+            print("CGFloat : indexPath row \(index)");
+        default :
+            print("invalide indexPath row");
+        }
     }
 }
 

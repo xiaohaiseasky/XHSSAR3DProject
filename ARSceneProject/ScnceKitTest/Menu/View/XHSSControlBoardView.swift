@@ -304,19 +304,28 @@ extension XHSSControlBoardView {
         
         doOpration(type: self.oprationType, point: point);
         
-//        else if self.rightControlTopImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: 0, y: self.translateSpeed, z: 0));
-//        } else if self.rightControlLeftImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: -self.translateSpeed, y: 0, z: 0));
-//        } else if self.rightControlBottomImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: 0, y: -self.translateSpeed, z: 0));
-//        } else if self.rightControlRightImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: self.translateSpeed, y: 0, z: 0));
-//        } else if self.rightControlRightTopImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: 0, y: 0, z: self.translateSpeed));
-//        } else if self.rightControlRightBottomImgView?.frame.contains(point) == true {
-//            self.geometryNode?.localTranslate(by: SCNVector3(x: 0, y: 0, z: -self.translateSpeed));
-//        }
+        
+        
+        //////////////////////////////////////////////////////
+//        var geometrySourceArr = self.geometryNode?.geometry?.sources;
+//        var geometryElementsArr = self.geometryNode?.geometry?.elements;
+//        let firstSource = geometrySourceArr?.first;
+////        let lastSource = geometrySourceArr?.last;
+////        let geometrySource = SCNGeometrySource(vertices:[SCNVector3(0, 3, 0)]);
+////        geometrySourceArr?.append(geometrySource);
+//        SCNGeometryElement(indices: [0, 1, 2], primitiveType: .triangles);
+//        self.geometryNode?.geometry = SCNGeometry(sources: geometrySourceArr!, elements: geometryElementsArr!);
+        
+//        let shapePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 3, height: 3), cornerRadius: 1);
+//        let shape = SCNShape(path: shapePath, extrusionDepth: 10);
+//        let shapeNode = SCNNode(geometry: shape);
+//        shapeNode.position = SCNVector3(0, 0, 0);
+//        shapeNode.name = "shape";
+//        self.geometryNode?.addChildNode(shapeNode);
+//        let materail = SCNMaterial();
+//        materail.diffuse.contents = UIImage(named: "tiankong.jpg");
+//        shape.materials = [materail];
+        //////////////////////////////////////////////////////
     }
     
     

@@ -122,12 +122,12 @@ class ViewController: UIViewController {
             setupLight(scene: scene);
             
             
-            let sphereNode = addSphere(radius: 4, toScene: scene);
-            self.geometryNode = sphereNode;
-            self.geometry = sphereNode.geometry!;
-            self.object = sphereNode;
-            self.oprateTargetObject = sphereNode;
-            addMaterial(toGeometry: self.geometry);
+//            let sphereNode = addSphere(radius: 4, toScene: scene);
+//            self.geometryNode = sphereNode;
+//            self.geometry = sphereNode.geometry!;
+//            self.object = sphereNode;
+//            self.oprateTargetObject = sphereNode;
+//            addMaterial(toGeometry: self.geometry);
             
             
             //添加指向胶囊节点这个约束
